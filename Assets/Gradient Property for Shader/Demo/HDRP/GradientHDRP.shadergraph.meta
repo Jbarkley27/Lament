@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 158a1b8f4ec71924e8c18b1093210621
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 258497
+  packageName: Gradient Property for Shader
+  packageVersion: 2.0.0
+  assetPath: Assets/Gradient Property for Shader/Demo/HDRP/GradientHDRP.shadergraph
+  uploadId: 758383

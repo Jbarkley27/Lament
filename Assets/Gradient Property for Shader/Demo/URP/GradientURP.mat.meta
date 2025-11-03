@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: e84fae663b18c5c4bbb76f2070bde1b6
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 258497
+  packageName: Gradient Property for Shader
+  packageVersion: 2.0.0
+  assetPath: Assets/Gradient Property for Shader/Demo/URP/GradientURP.mat
+  uploadId: 758383
