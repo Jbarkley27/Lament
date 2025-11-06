@@ -60,6 +60,9 @@ public class ProjectileBase : MonoBehaviour
                 enemyRb.AddForce(moveDirection * knockbackForce);
             }
 
+            ApplyHitFlashEffect(collision.gameObject);
+            ApplyDamage(collision.gameObject);
+
             Destroy(gameObject);
         }
         else if (
@@ -87,20 +90,39 @@ public class ProjectileBase : MonoBehaviour
 
         // Create rotation that faces along the normal
         Quaternion rotation = Quaternion.LookRotation(normal);
-        Debug.Log("Effects " + impactEffectsToApply.Count);
 
-        for(int i = 0; i < impactEffectsToApply.Count; i++)
+        for (int i = 0; i < impactEffectsToApply.Count; i++)
         {
-            Debug.Log($"Collision Spawn Pos - {spawnPos} : VFX - {impactEffectsToApply[i].name}");
             // Spawn the VFX
             GameObject vfx = Instantiate(impactEffectsToApply[i], spawnPos, rotation);
-            // var vfx = Instantiate(particlePrefab, position, rotation);
             var main = vfx.GetComponent<ParticleSystem>().main;
             main.maxParticles = Random.Range(10, 30);
             vfx.GetComponent<ParticleSystem>().Play();
-            // (Optional) destroy it after a few seconds
             Destroy(vfx, 2f);
         }
-
     }
+
+    public void ApplyHitFlashEffect(GameObject gameObject)
+    {
+        HitFlashModule hitFlashModule;
+        gameObject.TryGetComponent(out hitFlashModule);
+
+        if (hitFlashModule)
+        {
+            hitFlashModule.FlashAll();
+        }
+    }
+
+
+    public void ApplyDamage(GameObject gameObject)
+    {
+        HealthModule healthModule;
+        gameObject.TryGetComponent(out healthModule);
+
+        if (healthModule)
+        {
+            healthModule.ShowDamageUI();
+        }
+    }
+    
 }
