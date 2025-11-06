@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class OverviewmapIcon : MonoBehaviour
 {
     [Header("Map Setup")]
-    public RectTransform mapRect;      // The UI map panel (assign once, or auto-find)
+    private RectTransform mapRect;      // The UI map panel (assign once, or auto-find)
     public GameObject iconPrefab;      // Prefab of the UI icon (Image or custom)
     private RectTransform iconRect;
 

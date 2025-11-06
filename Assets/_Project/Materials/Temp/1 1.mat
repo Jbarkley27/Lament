@@ -13,7 +13,7 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _MK_ENVIRONMENT_REFLECTIONS_AMBIENT
-  - _MK_LIGHT_CEL
+  - _MK_LIGHT_BANDED
   - _MK_RECEIVE_SHADOWS
   m_InvalidKeywords:
   - _MK_ARTISTIC_ANIMATION_STUTTER
@@ -189,7 +189,7 @@ Material:
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DetailUVSet: 0
-    - _DiffuseSmoothness: 0
+    - _DiffuseSmoothness: 1
     - _DiffuseThresholdOffset: 0.25
     - _Dissolve: 0
     - _DissolveAmount: 0.5
@@ -217,8 +217,8 @@ Material:
     - _IridescenceSize: 1
     - _IridescenceSmoothness: 0.5
     - _IridescenceThresholdOffset: 0
-    - _Light: 1
-    - _LightBands: 4
+    - _Light: 2
+    - _LightBands: 2
     - _LightBandsScale: 0.5
     - _LightThreshold: 0.5
     - _Metallic: 0

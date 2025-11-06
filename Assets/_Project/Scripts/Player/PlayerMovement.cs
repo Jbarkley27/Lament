@@ -133,6 +133,14 @@ public class PlayerMovement : MonoBehaviour
     private void Boost()
     {
         if (!_inputManager.IsBoosting) return;
-            _rb.AddForce(gameObject.transform.forward * PlayerStatModule.BoostMultipler, ForceMode.Impulse);
+        _rb.AddForce(gameObject.transform.forward * PlayerStatModule.BoostMultipler, ForceMode.Impulse);
+    }
+    
+
+
+    // KNOCKBACK HANDLING ------------------------------------------------------
+    public void KnockBack(float knockbackForce)
+    {
+        _rb.AddForce(-transform.forward * knockbackForce, ForceMode.VelocityChange);
     }
 }

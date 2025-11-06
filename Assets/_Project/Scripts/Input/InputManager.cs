@@ -16,10 +16,12 @@ public class InputManager : MonoBehaviour
     public Vector2 CursorInput;
     public Vector3 CursorPosition;
 
-
-
     [Header("Boosting")]
     public bool IsBoosting = false;
+
+    [Header("Shooting")]
+    public bool IsShootingBlaster = false;
+    public bool HasReleasedShooting = true;
 
 
     [Header("Current Device Settings")]
@@ -40,6 +42,7 @@ public class InputManager : MonoBehaviour
     void Update()
     {
         GetCurrentDevice();
+        ShootBlaster();
     }
 
 
@@ -83,12 +86,34 @@ public class InputManager : MonoBehaviour
             return;
         }
 
-        
+
         if (context.performed)
         {
             ThrustInput = context.ReadValue<Vector2>();
         }
     }
+
+
+    public void ShootBlaster()
+    {
+        if (GlobalDataStore.Instance.MapManager.minimapOpen)
+        {
+            IsShootingBlaster = false;
+            return;
+        }
+
+
+        if (_playerInput.actions["ShootBlaster"].IsPressed())
+        {
+            IsShootingBlaster = true;
+            return;
+        } else
+        {
+            HasReleasedShooting = true;
+            IsShootingBlaster = false;
+        }
+    }
+    
 
 
     public void OpenMap(InputAction.CallbackContext context)

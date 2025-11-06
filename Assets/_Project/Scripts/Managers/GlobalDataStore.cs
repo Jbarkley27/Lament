@@ -9,6 +9,8 @@ public class GlobalDataStore : MonoBehaviour
     public GameObject PlayerVisual;
     public MapManager MapManager;
     public GameObject OverviewMapRoot;
+    public CinemachineCamera MainCMCamera;
+    public GameObject PlayerFireSource;
 
     private void Awake()
     {
