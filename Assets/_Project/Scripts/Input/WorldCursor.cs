@@ -15,6 +15,8 @@ public class WorldCursor : MonoBehaviour
     [SerializeField] private float _cursorSpeed = 10;
     [SerializeField] private Image cursorImage;
     [SerializeField] private LayerMask enemyLayer;
+    [SerializeField] private bool IsHoveringOverEnemy;
+    [SerializeField] private GameObject CenterDot;
 
 
 
@@ -35,6 +37,8 @@ public class WorldCursor : MonoBehaviour
     {
         Cursor.visible = false;
         CursorUI();
+        CheckForEnemyHover();
+        CenterDot.SetActive(IsHoveringOverEnemy);
     }
 
 
@@ -46,7 +50,6 @@ public class WorldCursor : MonoBehaviour
         if (_inputManager.CurrentDevice == InputManager.InputDevice.K_M)
         {
             // MOUSE INPUT
-
             userCursorInput = cursorInput;
         }
         else if (_inputManager.CurrentDevice == InputManager.InputDevice.GAMEPAD)
@@ -67,8 +70,41 @@ public class WorldCursor : MonoBehaviour
         userCursorInput.y = Mathf.Clamp(userCursorInput.y, 0, Screen.height);
 
         _cursorUI.position = userCursorInput;
-        
+
         MovePhysicalCursor();
+    }
+    
+
+    public void CheckForEnemyHover()
+    {
+        // 1. Get the center of the UI Image in screen space
+        Vector3 screenPos = RectTransformUtility.WorldToScreenPoint(null, cursorImage.rectTransform.position);
+
+        // 2. Cast a ray into the world
+        Ray ray = Camera.main.ScreenPointToRay(screenPos);
+
+        // 3. Check if it hits something in your target layer
+        if (Physics.Raycast(ray, out RaycastHit hit, 100000f, enemyLayer))
+        {
+            // if its the first time hovering over an enemy, play a sound
+            if (!IsHoveringOverEnemy)
+            {
+                // Play hover sound or any other logic
+                // AudioManager.Instance.PlayOneShot(AudioLibrary.Hover_Over_Enemy);
+            }
+
+            IsHoveringOverEnemy = true;
+        }
+        else
+        {
+            if (IsHoveringOverEnemy)
+            {
+                // Play hover exit sound or any other logic
+                // AudioManager.Instance.PlayOneShot(AudioLibrary.Unhover_Over_Enemy);
+            }
+
+            IsHoveringOverEnemy = false;
+        }
     }
 
 

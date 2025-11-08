@@ -18,6 +18,7 @@ public class InputManager : MonoBehaviour
 
     [Header("Boosting")]
     public bool IsBoosting = false;
+    public bool BoostTriggerForFirstTime = false;
 
     [Header("Shooting")]
     public bool IsShootingBlaster = false;
@@ -74,6 +75,7 @@ public class InputManager : MonoBehaviour
         else if (_playerInput.actions["Boost"].WasReleasedThisFrame())
         {
             IsBoosting = false;
+            BoostTriggerForFirstTime = true;
         }
     }
 

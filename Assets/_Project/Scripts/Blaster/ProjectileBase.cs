@@ -16,7 +16,7 @@ public class ProjectileBase : MonoBehaviour
     public GameObject hitEffectPrefab;
     private List<GameObject> impactEffectsToApply = new List<GameObject>();
 
-    public void Initialize(Vector3 direction, float speed, float life, int damage, List<GameObject> impactEffects, float knockback = 0)
+    public void Initialize(Vector3 direction, float speed, float life, int damage, List<GameObject> impactEffects, GameObject hitEffectPrefab, float knockback = 0)
     {
         rb = GetComponent<Rigidbody>();
         moveDirection = direction;
@@ -26,6 +26,7 @@ public class ProjectileBase : MonoBehaviour
         this.damage = damage;
         this.knockbackForce = knockback;
         impactEffectsToApply = impactEffects;
+        this.hitEffectPrefab = hitEffectPrefab;
 
         // Initial velocity
         rb.linearVelocity = moveDirection * baseSpeed;
@@ -44,11 +45,11 @@ public class ProjectileBase : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Projectile hit " + collision.gameObject.name);
+        Logger.Log("Projectile hit " + collision.gameObject.name);
         if (collision.gameObject.CompareTag("Enemy"))
         {
             Debug.Log("Hit Enemy");
-            
+
             // Point of Impact
             ApplyProjectileImpactEffect(collision, impactEffectsToApply);
 
@@ -62,7 +63,22 @@ public class ProjectileBase : MonoBehaviour
 
             ApplyHitFlashEffect(collision.gameObject);
             ApplyDamage(collision.gameObject);
+            ApplyImpactVFX(collision);
 
+            Destroy(gameObject);
+        }
+        else if (collision.gameObject.CompareTag("Asteroid"))
+        {
+            Asteroid asteroidHit = collision.gameObject.GetComponentInChildren<Asteroid>();
+
+            if (asteroidHit)
+            {
+                asteroidHit.TakeDamage(damage);
+            }
+
+            ApplyImpactVFX(collision);
+            ApplyHitFlashEffect(collision.gameObject);
+            Logger.Log("Hit Asteroid");
             Destroy(gameObject);
         }
         else if (
@@ -96,7 +112,7 @@ public class ProjectileBase : MonoBehaviour
             // Spawn the VFX
             GameObject vfx = Instantiate(impactEffectsToApply[i], spawnPos, rotation);
             var main = vfx.GetComponent<ParticleSystem>().main;
-            main.maxParticles = Random.Range(10, 30);
+            main.maxParticles = Random.Range(5, 10);
             vfx.GetComponent<ParticleSystem>().Play();
             Destroy(vfx, 2f);
         }
@@ -111,6 +127,26 @@ public class ProjectileBase : MonoBehaviour
         {
             hitFlashModule.FlashAll();
         }
+    }
+
+
+    public void ApplyImpactVFX(Collision collision)
+    {
+       // Get the first contact point
+        ContactPoint contact = collision.contacts[0];
+
+        // Position to spawn the VFX
+        Vector3 spawnPos = contact.point;
+
+        // The surface normal points *outward* from what you hit
+        Vector3 normal = contact.normal;
+
+        // Create rotation that faces along the normal
+        Quaternion rotation = Quaternion.LookRotation(normal);
+
+        // Spawn the VFX
+        GameObject vfx = Instantiate(hitEffectPrefab, spawnPos, rotation);
+        Destroy(vfx, 2f);
     }
 
 

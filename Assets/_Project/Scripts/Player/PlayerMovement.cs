@@ -21,6 +21,9 @@ public class PlayerMovement : MonoBehaviour
     public float _rotateDirection;
     public float _rotateDifference;
 
+    [Header("Boosting")]
+    public bool boostShakeNeeded = true;
+
 
     public StatModule PlayerStatModule;
 
@@ -131,9 +134,22 @@ public class PlayerMovement : MonoBehaviour
 
     // BOOST HANDLING ------------------------------------------------------
     private void Boost()
-    {
-        if (!_inputManager.IsBoosting) return;
+    {        
+        if (!_inputManager.IsBoosting || !GlobalDataStore.Instance.PlayerStatModule.CanBoost()) return;
+
+        // screen shake is called from input manager since this function runs each frame, we dont
+        // want it to always make the screen shake
         _rb.AddForce(gameObject.transform.forward * PlayerStatModule.BoostMultipler, ForceMode.Impulse);
+
+        if (_inputManager.BoostTriggerForFirstTime)
+        {
+            Logger.Log("Boost Shake");
+            // This runs only ONCE when boost starts
+            ScreenShakeManager.Instance.DoShake(ScreenShakeManager.Instance.BoostProfile);
+            _inputManager.BoostTriggerForFirstTime = false;
+        }
+
+
     }
     
 

@@ -1,12 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class OverviewmapIcon : MonoBehaviour
+public class OverviewMapIcon : MonoBehaviour
 {
     [Header("Map Setup")]
-    private RectTransform mapRect;      // The UI map panel (assign once, or auto-find)
-    public GameObject iconPrefab;      // Prefab of the UI icon (Image or custom)
+    private RectTransform mapRect;       // The UI map panel (assume square for circular map)
+    public GameObject iconPrefab;        // Prefab of the UI icon (Image or custom)
     private RectTransform iconRect;
+
+    private float mapRadius;             // Radius of the circular map
 
     void Start()
     {
@@ -17,6 +19,9 @@ public class OverviewmapIcon : MonoBehaviour
             Debug.LogWarning($"[MapIcon] Missing setup on {gameObject.name}");
             return;
         }
+
+        // Assuming mapRect is square
+        mapRadius = Mathf.Min(mapRect.rect.width, mapRect.rect.height) / 2f;
 
         // Instantiate icon under map
         GameObject icon = Instantiate(iconPrefab, mapRect);
@@ -30,18 +35,20 @@ public class OverviewmapIcon : MonoBehaviour
 
         Vector3 worldPos = transform.position;
 
-        // Only use X (horizontal) and Z (depth) for map projection
-        float normalizedX = Mathf.InverseLerp(GlobalDataStore.Instance.MapManager.WorldMin.x, GlobalDataStore.Instance.MapManager.WorldMax.x, worldPos.x);
-        float normalizedZ = Mathf.InverseLerp(GlobalDataStore.Instance.MapManager.WorldMin.y, GlobalDataStore.Instance.MapManager.WorldMax.y, worldPos.z);
+        // Normalize X and Z (or Y if using top-down world)
+        float normalizedX = Mathf.InverseLerp(GlobalDataStore.Instance.MapManager.WorldMin.x, GlobalDataStore.Instance.MapManager.WorldMax.x, worldPos.x) - 0.5f;
+        float normalizedZ = Mathf.InverseLerp(GlobalDataStore.Instance.MapManager.WorldMin.y, GlobalDataStore.Instance.MapManager.WorldMax.y, worldPos.z) - 0.5f;
 
-        // Convert normalized values to UI anchored position
-        float mapWidth = mapRect.rect.width;
-        float mapHeight = mapRect.rect.height;
+        Vector2 normalizedPos = new Vector2(normalizedX, normalizedZ);
 
-        float uiX = (normalizedX * mapWidth) - (mapWidth / 2f);
-        float uiY = (normalizedZ * mapHeight) - (mapHeight / 2f);
+        // Clamp to unit circle
+        if (normalizedPos.sqrMagnitude > 0.25f) // because normalizedPos ranges -0.5 to 0.5
+        {
+            normalizedPos = normalizedPos.normalized * 0.5f;
+        }
 
-        iconRect.anchoredPosition = new Vector2(uiX, uiY);
+        // Convert to UI position
+        iconRect.anchoredPosition = normalizedPos * (mapRadius * 2f);
 
         // Optional: rotate icon to match world Y rotation
         iconRect.localRotation = Quaternion.Euler(0, 0, -transform.eulerAngles.y);

@@ -28,6 +28,7 @@ public class ScreenShakeManager : MonoBehaviour
     public ShakeProfile ShootProfile = new ShakeProfile(2f, 5, .1f);
     public ShakeProfile DashProfile = new ShakeProfile(4.5f, 5, .4f);
     public ShakeProfile DamagedProfile = new ShakeProfile(2.5f, 5, .3f);
+    public ShakeProfile BoostProfile = new ShakeProfile(2.5f, 5, .3f);
 
 
     private void Awake()

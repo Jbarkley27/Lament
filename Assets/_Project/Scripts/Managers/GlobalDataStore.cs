@@ -11,6 +11,8 @@ public class GlobalDataStore : MonoBehaviour
     public GameObject OverviewMapRoot;
     public CinemachineCamera MainCMCamera;
     public GameObject PlayerFireSource;
+    public StatModule PlayerStatModule;
+    public AsteroidManager AsteroidManager;
 
     private void Awake()
     {
@@ -22,5 +24,6 @@ public class GlobalDataStore : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        MainCMCamera.Lens.OrthographicSize = 70;
     }
 }

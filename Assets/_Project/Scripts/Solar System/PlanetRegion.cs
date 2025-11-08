@@ -17,7 +17,7 @@ public class PlanetRegion : MonoBehaviour
     {
         if (other.CompareTag("PlayerVisual"))
             StopAllCoroutines();
-        StartCoroutine(LerpBackground(mainCamera, backgroundColor));
+        // StartCoroutine(LerpBackground(mainCamera, backgroundColor));
         ShowElements();
     }
     
@@ -25,7 +25,7 @@ public class PlanetRegion : MonoBehaviour
     {
         if (other.CompareTag("PlayerVisual"))
             StopAllCoroutines();
-            StartCoroutine(LerpBackground(mainCamera, StarfieldManager.Instance.DeadSpaceBackgroundColor));
+            // StartCoroutine(LerpBackground(mainCamera, StarfieldManager.Instance.DeadSpaceBackgroundColor));
         HideElements();
     }
 

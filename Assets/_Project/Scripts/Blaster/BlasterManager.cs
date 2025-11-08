@@ -95,7 +95,7 @@ public class BlasterManager : MonoBehaviour
         if (!canFire || isFiring)
             return;
 
-        Logger.Log("StartShooting()", Logger.LogTypeCategory.Debug);
+        // Logger.Log("StartShooting()", Logger.LogTypeCategory.Debug);
         canFire = false;
         isFiring = true;
         canRegenerateAmmo = false;
@@ -109,7 +109,7 @@ public class BlasterManager : MonoBehaviour
 
     private IEnumerator ShootRoutine()
     {
-        Logger.Log("ShootRoutine()", Logger.LogTypeCategory.Debug);
+        // Logger.Log("ShootRoutine()", Logger.LogTypeCategory.Debug);
         for (int i = 0; i < EquippedBlaster.ProjectilesPerShot; i++)
         {
             if (!HasAmmo()) break;
@@ -122,6 +122,7 @@ public class BlasterManager : MonoBehaviour
             );
 
             ScreenShakeManager.Instance.DoShake(EquippedBlaster.ScreenShakeProfile);
+            MuzzleFlash();
 
             projectile.GetComponent<ProjectileBase>().Initialize(
                 GetProjectileDirection(EquippedBlaster.Accuracy),
@@ -129,6 +130,7 @@ public class BlasterManager : MonoBehaviour
                 EquippedBlaster.Range,
                 EquippedBlaster.BaseDamage,
                 EquippedBlaster.impactEffects,
+                EquippedBlaster.TargetImpactVFX,
                 EquippedBlaster.KnockbackForce
             );
 
@@ -204,6 +206,16 @@ public class BlasterManager : MonoBehaviour
         float offset = Random.Range(-spread, spread);
         return (forward + new Vector3(offset, 0, 0)).normalized;
     }
+
+    void MuzzleFlash()
+    {
+        Quaternion rotation = Quaternion.LookRotation(GlobalDataStore.Instance.PlayerMovement.gameObject.transform.forward);
+
+        // Spawn the VFX
+        GameObject vfx = Instantiate(EquippedBlaster.MuzzleFlashVFX, GlobalDataStore.Instance.PlayerFireSource.transform.position, rotation);
+        Destroy(vfx, .7f);
+    }
+    
 }
 
 [System.Serializable]
@@ -226,4 +238,6 @@ public struct Blaster
     public float KnockbackForce;
     public float RecoilForce;
     public List<GameObject> impactEffects;
+    public GameObject MuzzleFlashVFX;
+    public GameObject TargetImpactVFX;
 }

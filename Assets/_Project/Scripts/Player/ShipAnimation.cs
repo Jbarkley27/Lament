@@ -74,7 +74,8 @@ public class ShipAnimation : MonoBehaviour
     // VFX -----------------------------------------------------------------------
     public void HandleSpeedVFX()
     {
-        if (!GlobalDataStore.Instance.InputManager.IsBoosting)
+        if (!GlobalDataStore.Instance.InputManager.IsBoosting
+            || !GlobalDataStore.Instance.PlayerStatModule.CanBoost())
         {
             speedLines.gameObject.SetActive(false);
             return;

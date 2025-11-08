@@ -2,29 +2,31 @@ using UnityEngine;
 
 public class ParallaxObject : MonoBehaviour
 {
-    public Transform player;                 // usually the player's ship
-    [Range(0f, 1f)] 
-    private Vector3 lastPlayerPos;
+    [Tooltip("Reference to the main camera (auto-assigned if null).")]
+    public Transform cameraTransform;
 
-    public float parallaxStrength = 0.1f; 
-    public float globalParallaxScale = 0.01f; // smaller = slower motion    
+    [Tooltip("How much parallax movement to apply (0 = static, 1 = moves with camera).")]
+    [Range(0f, 1f)]
+    public float parallaxStrength = 0.1f;
+
+    private Vector3 startPosition;
+    private Vector3 cameraStartPosition;
 
     void Start()
     {
-        player = GlobalDataStore.Instance.PlayerVisual.transform;
-        if (player != null)
-            lastPlayerPos = player.position;
+        if (cameraTransform == null)
+            cameraTransform = Camera.main.transform;
+
+        startPosition = transform.position;
+        cameraStartPosition = cameraTransform.position;
     }
 
     void LateUpdate()
     {
-        if (player == null) return;
+        // Compute the camera’s offset since start
+        Vector3 cameraOffset = cameraTransform.position - cameraStartPosition;
 
-        Vector3 delta = player.position - lastPlayerPos;
-
-        // Move opposite the player's motion
-        transform.position -= delta * parallaxStrength * globalParallaxScale * .001f;
-
-        lastPlayerPos = player.position;
+        // Apply a fraction of that offset to this object's start position
+        transform.position = startPosition + cameraOffset * parallaxStrength;
     }
 }
