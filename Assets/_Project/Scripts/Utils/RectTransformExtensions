@@ -1,0 +1,14 @@
+using UnityEngine;
+
+public static class RectTransformExtensions
+{
+    public static bool IsOverlapping(RectTransform a, RectTransform b)
+    {
+        if (a == null || b == null) return false;
+
+        Bounds aBounds = RectTransformUtility.CalculateRelativeRectTransformBounds(a);
+        Bounds bBounds = RectTransformUtility.CalculateRelativeRectTransformBounds(b);
+
+        return aBounds.Intersects(bBounds);
+    }
+}

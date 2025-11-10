@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af277639486fd43e5860f6ef184aae0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OverviewmapIcon
-  iconPrefab: {fileID: 371274041374759349, guid: 05498b65342504049959de4b1929684a, type: 3}
+  iconPrefab: {fileID: 2205718235359125690, guid: 58d0787070e0e466cbcae64dd00dfc54, type: 3}
 --- !u!1 &4549210738554830915
 GameObject:
   m_ObjectHideFlags: 0

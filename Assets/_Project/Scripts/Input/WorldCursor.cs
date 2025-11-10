@@ -39,6 +39,7 @@ public class WorldCursor : MonoBehaviour
         CursorUI();
         CheckForEnemyHover();
         CenterDot.SetActive(IsHoveringOverEnemy);
+        ShouldShrinkCursor();
     }
 
 
@@ -146,5 +147,10 @@ public class WorldCursor : MonoBehaviour
     public Vector3 GetCursorPosition()
     {
         return cursorImage.transform.position;
+    }
+
+    public void ShouldShrinkCursor()
+    {
+        _cursorUI.localScale = !GlobalDataStore.Instance.MapManager.minimapOpen ? Vector3.one * .7f : Vector3.one;
     }
 }
