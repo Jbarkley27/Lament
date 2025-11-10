@@ -6,6 +6,8 @@ public class AsteroidManager : MonoBehaviour
     public float activationDistance = 50f;
     public float deactivationDistance = 60f; // hysteresis
 
+    
+
     private List<IProximityToggle> managedObjects = new List<IProximityToggle>();
 
     void Awake()
@@ -13,10 +15,8 @@ public class AsteroidManager : MonoBehaviour
         GlobalDataStore.Instance.AsteroidManager = this;
     }
 
-    void Start()
-    {
 
-    }
+
 
     void Update()
     {

@@ -16,8 +16,7 @@ public class NotificationManager : MonoBehaviour
         public string Title;
         public float Duration;
         public Sprite Icon;
-        // public Action OnShow;  // Callback for when it starts showing
-        // public Action OnHide;  // Callback for when it ends
+
 
         public Notification(string message, string title, float duration, Sprite icon)
         {
@@ -25,8 +24,6 @@ public class NotificationManager : MonoBehaviour
             Title = title;
             Duration = duration;
             Icon = icon;
-            // OnShow = onShow;
-            // OnHide = onHide;
         }
     }
 

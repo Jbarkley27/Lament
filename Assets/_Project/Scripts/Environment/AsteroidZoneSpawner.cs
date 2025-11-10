@@ -7,9 +7,9 @@ public class AsteroidZoneSpawner : MonoBehaviour
     public int asteroidCount = 100;
     public float asteroidRadius = 15f;
     public Transform asteroidContainer;
-
     private Collider spawnCollider;
     public LayerMask layerMask;
+    
 
     void Start()
     {

@@ -32,20 +32,25 @@ public class Asteroid : MonoBehaviour
         if (rb == null)
         {
             rb = gameObject.AddComponent<Rigidbody>();
-            rb.useGravity = false;      // usually no gravity in space
-            rb.linearDamping = 20f;               // no linear drag
-            rb.angularDamping = 2f;        // no rotational drag
+            rb.useGravity = false;
+            rb.linearDamping = 20f;
+            rb.angularDamping = 2f; 
         }
 
         rb.angularDamping = Random.Range(rb.angularDamping - 1, rb.angularDamping + 3);
-        
+
         // Randomize initial scale
         originalScale = new Vector3(
             Random.Range(5, 12),
             Random.Range(5, 12),
             Random.Range(5, 12)
         );
+
         transform.localScale = originalScale;
+        
+
+        // scale the mass by the size, smaller, easy to push, larger harder
+        rb.mass = rb.mass + Mathf.Clamp(transform.localScale.sqrMagnitude, 1, 5);
 
         // Set scales for health thresholds
         threeFourthScale = originalScale * 0.75f;
