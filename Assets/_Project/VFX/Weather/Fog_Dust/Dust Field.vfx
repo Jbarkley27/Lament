@@ -40,15 +40,12 @@ MonoBehaviour:
       y: 0
       width: 100
       height: 100
-    contents:
-    - model: {fileID: 8926484042661614830}
-      id: 0
-      isStickyNote: 0
+    contents: []
   stickyNoteInfos: []
   categories: []
   uiBounds:
     serializedVersion: 2
-    x: 0
+    x: -0
     y: -1557
     width: 1313
     height: 2305
@@ -458,7 +455,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"4c59f4d5729a9834f8ac9e2a2f525df6","type":3}}'
+      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"1810033d91bbe254a9f9d4e37c7bf8dd","type":3}}'
     m_Space: -1
   m_Property:
     name: mainTexture
@@ -565,7 +562,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEditor.VFX.AABox, Unity.VisualEffectGraph.Editor,
           Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"center":{"x":0.0,"y":1.0,"z":0.0},"size":{"x":2500.0,"y":20.0,"z":2500.0}}'
+      m_SerializableObject: '{"center":{"x":0.0,"y":2.0,"z":0.0},"size":{"x":3400.0,"y":10.0,"z":3400.0}}'
     m_Space: 0
   m_Property:
     name: bounds
@@ -1635,7 +1632,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: 25
+      m_SerializableObject: 40
     m_Space: -1
   m_Property:
     name: Max
@@ -2001,7 +1998,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: -3
+      m_SerializableObject: -1
     m_Space: -1
   m_Property:
     name: Min
@@ -2035,7 +2032,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: System.Single, mscorlib, Version=4.0.0.0, Culture=neutral,
           PublicKeyToken=b77a5c561934e089
-      m_SerializableObject: -10
+      m_SerializableObject: -8
     m_Space: -1
   m_Property:
     name: Max
@@ -2168,7 +2165,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Gradient, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"colorKeys":[{"color":{"r":1.0,"g":1.0,"b":1.0,"a":1.0},"time":0.0},{"color":{"r":1.0,"g":1.0,"b":1.0,"a":1.0},"time":0.5303730964660645},{"color":{"r":0.5,"g":0.5,"b":0.5,"a":1.0},"time":1.0}],"alphaKeys":[{"alpha":0.0,"time":0.0},{"alpha":0.9098039269447327,"time":0.19305714964866639},{"alpha":0.3137255012989044,"time":0.5379568338394165},{"alpha":0.9411764740943909,"time":0.7212634682655335},{"alpha":0.0,"time":1.0}],"gradientMode":0}'
+      m_SerializableObject: '{"colorKeys":[{"color":{"r":1.0,"g":1.0,"b":1.0,"a":1.0},"time":0.0},{"color":{"r":1.0,"g":1.0,"b":1.0,"a":1.0},"time":0.5303730964660645},{"color":{"r":0.5,"g":0.5,"b":0.5,"a":1.0},"time":1.0}],"alphaKeys":[{"alpha":0.0,"time":0.0},{"alpha":0.6980392336845398,"time":0.19305714964866639},{"alpha":0.3137255012989044,"time":0.5379568338394165},{"alpha":0.2980392277240753,"time":0.7212634682655335},{"alpha":0.0,"time":1.0}],"gradientMode":0}'
     m_Space: -1
   m_Property:
     name: Color
@@ -3703,7 +3700,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEditor.VFX.OrientedBox, Unity.VisualEffectGraph.Editor,
           Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"center":{"x":0.0,"y":0.0,"z":0.0},"angles":{"x":0.0,"y":0.0,"z":0.0},"size":{"x":2500.0,"y":20.0,"z":2500.0}}'
+      m_SerializableObject: '{"center":{"x":0.0,"y":0.0,"z":0.0},"angles":{"x":0.0,"y":0.0,"z":0.0},"size":{"x":2800.0,"y":10.0,"z":2800.0}}'
     m_Space: 0
   m_Property:
     name: Box
