@@ -157,7 +157,7 @@ public class ProjectileBase : MonoBehaviour
 
         if (healthModule)
         {
-            healthModule.ShowDamageUI();
+            healthModule.TakeDamage(damage);
         }
     }
     

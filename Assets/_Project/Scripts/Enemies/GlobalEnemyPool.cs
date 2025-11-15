@@ -5,13 +5,13 @@ using UnityEngine;
 public enum EnemyType
 {
     Atom,
-    Nidus,
     Ignis,
     Strix,
     Grail,
     Gravem,
     Krag,
-    Voss
+    Voss,
+    Nidus,
 }
 
 
@@ -32,7 +32,6 @@ public class GlobalEnemyPool : MonoBehaviour
 
     [Header("Enemy Prefabs")]
     public List<EnemyPrefab> enemyPrefabs;
-
     private Dictionary<EnemyType, Queue<GameObject>> poolDict = new();
 
     [Header("Global Enemy Settings")]
@@ -52,6 +51,9 @@ public class GlobalEnemyPool : MonoBehaviour
 
         InitializePools();
     }
+
+
+
 
     private void InitializePools()
     {
@@ -78,6 +80,8 @@ public class GlobalEnemyPool : MonoBehaviour
 
 
 
+
+
     public GameObject SpawnEnemy(EnemyType type, Vector3 position)
     {
         if (!poolDict.ContainsKey(type))
@@ -86,24 +90,41 @@ public class GlobalEnemyPool : MonoBehaviour
             return null;
         }
 
+        Logger.Log($"Spawning enemy of type {type}");
+
+        // Get from pool or instantiate new if pool is empty
         GameObject enemy = poolDict[type].Count > 0 ? poolDict[type].Dequeue() : Instantiate(GetPrefab(type));
         enemy.transform.position = position;
         enemy.SetActive(true);
         enemy.transform.SetParent(activeEnemyContainer);
+
+        EnemyBase eb = enemy.GetComponent<EnemyBase>();
+        if (eb != null)
+            eb.OnSpawned();
+
         return enemy;
     }
+
+
     
 
 
     public void DespawnEnemy(GameObject enemy)
     {
+        Logger.Log($"Despawning enemy {enemy.name}");
+        EnemyBase enemyBase = enemy.GetComponent<EnemyBase>();
+        if (enemyBase != null)
+            enemyBase.OnDespawned();
+
+
         enemy.SetActive(false);
         enemy.transform.SetParent(inactiveEnemyContainer);
 
         // Optional: reset physics or AI here
-        EnemyBase enemyBase = enemy.GetComponent<EnemyBase>();
+        // EnemyBase enemyBase = enemy.GetComponent<EnemyBase>();
         if (enemyBase != null)
         {
+            // Return to pool
             poolDict[enemyBase.enemyType].Enqueue(enemy);
         }
         else
@@ -112,6 +133,9 @@ public class GlobalEnemyPool : MonoBehaviour
             Destroy(enemy);
         }
     }
+
+
+    
 
     private GameObject GetPrefab(EnemyType type)
     {

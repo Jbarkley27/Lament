@@ -13,8 +13,19 @@ public abstract class EnemyBase : MonoBehaviour
         Attacking
     }
 
-    protected EnemyState currentState;
+    // protected EnemyState currentState;
     public EnemyType enemyType;
+    public GameObject explosionEffectPrefab;
+
+
+
+
+
+
+
+
+
+
 
     // ------------------------------ //
     //          COMPONENTS
@@ -27,25 +38,41 @@ public abstract class EnemyBase : MonoBehaviour
     protected Transform player;
 
     // Movement parameters
-    [Header("Movement")]
-    public float moveSpeed = 3f;
-    public float turnSpeed = 10f;
+    // [Header("Movement")]
+    // public float moveSpeed = 3f;
+    // public float turnSpeed = 10f;
 
     // Tilt behavior
-    [Header("Tilt")]
-    public bool useTilt = false;
-    public float tiltAmount = 10f;
+    // [Header("Tilt")]
+    // public bool useTilt = false;
+    // public float tiltAmount = 10f;
 
     // Cached velocity for tilt
-    private Vector3 lastMoveDirection = Vector3.zero;
+    // private Vector3 lastMoveDirection = Vector3.zero;
+
+
+
+
+
+
+
+
 
     // ------------------------------ //
     //      ATTACK GATING SYSTEM
     // ------------------------------ //
-    protected bool canAttack = false;
+    // protected bool canAttack = false;
 
     // Subclasses override this:
-    protected virtual bool RequestAttackPermission() => true;
+    // protected virtual bool RequestAttackPermission() => true;
+
+
+
+
+
+
+
+
 
     // ------------------------------ //
     //           UNITY HOOKS
@@ -55,155 +82,222 @@ public abstract class EnemyBase : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         health = GetComponent<HealthModule>();
 
-        if (health != null)
-            health.OnDeath += HandleDeath;
+        // if (health != null)
+        //     health.OnDeath += HandleDeath;
     }
 
-    protected virtual void Update()
-    {
-        RunStateMachine();
-        ApplyTilt();
-    }
+
+
+    // protected virtual void Update()
+    // {
+    //     RunStateMachine();
+    //     ApplyTilt();
+    // }
+
+
+
+
+
+
+
+
 
     // ------------------------------ //
     //         STATE MACHINE
     // ------------------------------ //
-    private void RunStateMachine()
-    {
-        switch (currentState)
-        {
-            case EnemyState.Idle:
-                IdleState();
-                break;
+    // private void RunStateMachine()
+    // {
+    //     switch (currentState)
+    //     {
+    //         case EnemyState.Idle:
+    //             IdleState();
+    //             break;
 
-            case EnemyState.Wandering:
-                WanderingState();
-                break;
+    //         case EnemyState.Wandering:
+    //             WanderingState();
+    //             break;
 
-            case EnemyState.Seeking:
-                SeekingState();
-                break;
+    //         case EnemyState.Seeking:
+    //             SeekingState();
+    //             break;
 
-            case EnemyState.Attacking:
-                AttackingState();
-                break;
-        }
-    }
+    //         case EnemyState.Attacking:
+    //             AttackingState();
+    //             break;
+    //     }
+    // }
 
-    protected virtual void IdleState() { }
-    protected virtual void WanderingState() { }
-    protected virtual void SeekingState() { }
-    protected virtual void AttackingState() { }
+    // protected virtual void IdleState() { }
+    // protected virtual void WanderingState() { }
+    // protected virtual void SeekingState() { }
+    // protected virtual void AttackingState() { }
+
+
+
+
+
+
+
+
+    
 
     // ------------------------------ //
     //         SPAWN/DESPAWN
     // ------------------------------ //
-    public virtual void OnSpawned(Transform playerRef)
+    public virtual void OnSpawned()
     {
-        player = playerRef;
+        player = GlobalDataStore.Instance.PlayerVisual.transform;
 
         if (health != null)
+        {
+            health.OnSpawn();
             health.ResetHealth();
+        }
 
-        rb.linearVelocity = Vector3.zero;
-        lastMoveDirection = Vector3.zero;
-
-        EnterIdleState();
+        // EnterIdleState();
     }
+
+
+
 
     public virtual void OnDespawned()
     {
-        rb.linearVelocity = Vector3.zero;
-        lastMoveDirection = Vector3.zero;
+        if (health != null)
+        {
+            // Despawn Health
+            health.OnDespawn();
+        }
+        
 
-        player = null;
+        // rb.linearVelocity = Vector3.zero;
+        // lastMoveDirection = Vector3.zero;
 
-        currentState = EnemyState.Idle;
+        // player = null;
+
+        // currentState = EnemyState.Idle;
     }
+
+
+
+
+
+
+
+
 
     // ------------------------------ //
     //             TILT
     // ------------------------------ //
-    private void ApplyTilt()
-    {
-        if (!useTilt) return;
+    // private void ApplyTilt()
+    // {
+    //     if (!useTilt) return;
 
-        Vector3 horizontalVel = rb.linearVelocity;
-        horizontalVel.y = 0f;
+    //     Vector3 horizontalVel = rb.linearVelocity;
+    //     horizontalVel.y = 0f;
 
-        if (horizontalVel.sqrMagnitude < 0.01f)
-        {
-            transform.localRotation = Quaternion.Lerp(
-                transform.localRotation,
-                Quaternion.identity,
-                Time.deltaTime * 5f
-            );
-            return;
-        }
+    //     if (horizontalVel.sqrMagnitude < 0.01f)
+    //     {
+    //         transform.localRotation = Quaternion.Lerp(
+    //             transform.localRotation,
+    //             Quaternion.identity,
+    //             Time.deltaTime * 5f
+    //         );
+    //         return;
+    //     }
 
-        lastMoveDirection = horizontalVel.normalized;
+    //     lastMoveDirection = horizontalVel.normalized;
 
-        Quaternion targetTilt =
-            Quaternion.Euler(
-                lastMoveDirection.z * -tiltAmount,
-                0,
-                lastMoveDirection.x * tiltAmount
-            );
+    //     Quaternion targetTilt =
+    //         Quaternion.Euler(
+    //             lastMoveDirection.z * -tiltAmount,
+    //             0,
+    //             lastMoveDirection.x * tiltAmount
+    //         );
 
-        transform.localRotation = Quaternion.Lerp(
-            transform.localRotation,
-            targetTilt,
-            Time.deltaTime * 5f
-        );
-    }
+    //     transform.localRotation = Quaternion.Lerp(
+    //         transform.localRotation,
+    //         targetTilt,
+    //         Time.deltaTime * 5f
+    //     );
+    // }
+
+
+
+
+
 
     // ------------------------------ //
     //            DEATH
     // ------------------------------ //
-    protected virtual void HandleDeath()
+    public virtual void HandleDeath()
     {
         Die();
         GlobalEnemyPool.Instance.DespawnEnemy(gameObject);
     }
 
+
+
+
+
+
+
+
+
     // ------------------------------ //
     //          STATE HELPERS
     // ------------------------------ //
-    protected void EnterIdleState() => currentState = EnemyState.Idle;
-    protected void EnterWanderingState() => currentState = EnemyState.Wandering;
-    protected void EnterSeekingState() => currentState = EnemyState.Seeking;
-    protected void EnterAttackingState() => currentState = EnemyState.Attacking;
+    // protected void EnterIdleState() => currentState = EnemyState.Idle;
+    // protected void EnterWanderingState() => currentState = EnemyState.Wandering;
+    // protected void EnterSeekingState() => currentState = EnemyState.Seeking;
+    // protected void EnterAttackingState() => currentState = EnemyState.Attacking;
+
+
+
+
+
+
+
+
+
+
 
     // ------------------------------ //
     //          MOVEMENT HELPERS
     // ------------------------------ //
-    protected void MoveTowards(Vector3 targetPos)
-    {
-        Vector3 dir = (targetPos - transform.position).normalized;
+    // protected void MoveTowards(Vector3 targetPos)
+    // {
+    //     Vector3 dir = (targetPos - transform.position).normalized;
 
-        rb.MovePosition(transform.position + dir * moveSpeed * Time.deltaTime);
+    //     rb.MovePosition(transform.position + dir * moveSpeed * Time.deltaTime);
 
-        // Rotate to face direction
-        if (dir.sqrMagnitude > 0.01f)
-        {
-            Quaternion lookRot = Quaternion.LookRotation(dir);
-            transform.rotation = Quaternion.Lerp(
-                transform.rotation,
-                lookRot,
-                Time.deltaTime * turnSpeed
-            );
-        }
-    }
+    //     // Rotate to face direction
+    //     if (dir.sqrMagnitude > 0.01f)
+    //     {
+    //         Quaternion lookRot = Quaternion.LookRotation(dir);
+    //         transform.rotation = Quaternion.Lerp(
+    //             transform.rotation,
+    //             lookRot,
+    //             Time.deltaTime * turnSpeed
+    //         );
+    //     }
+    // }
 
-    protected float DistanceToPlayer()
-    {
-        if (player == null) return Mathf.Infinity;
-        return Vector3.Distance(transform.position, player.position);
-    }
+    // protected float DistanceToPlayer()
+    // {
+    //     if (player == null) return Mathf.Infinity;
+    //     return Vector3.Distance(transform.position, player.position);
+    // }
 
     public void Die()
     {
         owningCamp?.NotifyEnemyDied(this);
+
+        // Play explosion effect
+        if (explosionEffectPrefab != null)
+        {
+            Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
+        }
+
         gameObject.SetActive(false);
     }
 }

@@ -3,45 +3,50 @@ using UnityEngine.UI;
 using TMPro;
 using System;
 using DamageNumbersPro;
-using Random = UnityEngine.Random;
 
 public class HealthModule : MonoBehaviour
 {
     [Header("Stats")]
     public float maxHealth = 100f;
     private float currentHealth;
+    public EnemyBase enemyBase;
 
-    public event Action OnDeath;
+
 
     [Header("UI")]
-    public GameObject healthUIPrefab;   // Assigned in inspector
-    private GameObject healthUIInstance;
+    // public GameObject healthUIPrefab;   // Assigned in inspector
+    public GameObject healthUIInstance;
     private Slider slider;
     private TMP_Text percentText;
     public DamageNumber damageNumberPrefab;
     public float heightOffset = 5;
-
     private bool uiInitialized = false;
+
+
 
     private void Awake()
     {
         currentHealth = maxHealth;
     }
 
+
+
+
+
     // Called by EnemyBase.OnSpawned()
     public void InitializeUI()
     {
         if (uiInitialized) return;
 
-        if (healthUIPrefab == null)
+        if (healthUIInstance == null)
         {
             Debug.LogError($"Health UI Prefab missing on {name}");
             return;
         }
 
         // Instantiate under the global health bar canvas
-        Transform root = GlobalEnemyPool.Instance.EnemyHealthCanvas.transform;
-        healthUIInstance = Instantiate(healthUIPrefab, root);
+        // Transform root = GlobalEnemyPool.Instance.EnemyHealthCanvas.transform;
+        // healthUIInstance = Instantiate(healthUIPrefab, root);
 
         slider = healthUIInstance.GetComponentInChildren<Slider>();
         percentText = healthUIInstance.GetComponentInChildren<TMP_Text>();
@@ -52,15 +57,23 @@ public class HealthModule : MonoBehaviour
         healthUIInstance.SetActive(false);
 
         // Register UI follow script
-        UIFollowTarget follow = healthUIInstance.GetComponent<UIFollowTarget>();
-        if (follow == null)
-        {
-            follow = healthUIInstance.AddComponent<UIFollowTarget>();
-        }
-        follow.target = this.transform;
+        // UIFollowTarget follow = healthUIInstance.GetComponent<UIFollowTarget>();
+        // if (follow == null)
+        // {
+        //     follow = healthUIInstance.AddComponent<UIFollowTarget>();
+        // }
+        slider.maxValue = maxHealth;
+        slider.value = currentHealth;
+        // percentText.text = Mathf.RoundToInt((currentHealth / maxHealth) * 100f) + "%";
+        percentText.text = currentHealth.ToString();
+
+        // follow.target = this.transform;
 
         uiInitialized = true;
     }
+
+
+
 
     public void OnSpawn()
     {
@@ -73,14 +86,20 @@ public class HealthModule : MonoBehaviour
         healthUIInstance.SetActive(true);
     }
 
+
+
+
     public void OnDespawn()
     {
         if (healthUIInstance != null)
             healthUIInstance.SetActive(false);
     }
 
-    public void TakeDamage(float amount)
+
+
+    public void TakeDamage(int amount)
     {
+        ShowDamageUI(amount);
         currentHealth -= amount;
 
         if (currentHealth < 0)
@@ -94,21 +113,28 @@ public class HealthModule : MonoBehaviour
         }
     }
 
+
+
     private void UpdateUI()
     {
         if (!uiInitialized) return;
 
-        slider.value = currentHealth / maxHealth;
-        percentText.text = Mathf.RoundToInt((currentHealth / maxHealth) * 100f) + "%";
+        slider.value = currentHealth;
+        // percentText.text = Mathf.RoundToInt((currentHealth / maxHealth) * 100f) + "%";
+        percentText.text = currentHealth.ToString();
     }
+
+
+
 
     private void Die()
     {
-        OnDeath?.Invoke();
+        enemyBase.HandleDeath();
 
         if (healthUIInstance != null)
             healthUIInstance.SetActive(false);
     }
+
 
 
     public void ResetHealth()
@@ -136,11 +162,11 @@ public class HealthModule : MonoBehaviour
 
 
 
-        public void ShowDamageUI()
+    public void ShowDamageUI(int damage)
     {
         Vector3 offsetVec = new Vector3(transform.position.x, heightOffset, transform.position.z);
 
         //Spawn new popup at transform.position with a random number between 0 and 100.
-        if (damageNumberPrefab) damageNumberPrefab.Spawn(offsetVec, Random.Range(1, 999));
+        if (damageNumberPrefab) damageNumberPrefab.Spawn(offsetVec, damage.ToString());
     }
 }

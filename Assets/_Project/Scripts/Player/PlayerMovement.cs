@@ -143,7 +143,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (_inputManager.BoostTriggerForFirstTime)
         {
-            Logger.Log("Boost Shake");
             // This runs only ONCE when boost starts
             ScreenShakeManager.Instance.DoShake(ScreenShakeManager.Instance.BoostProfile);
             _inputManager.BoostTriggerForFirstTime = false;

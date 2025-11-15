@@ -24,26 +24,26 @@ public class EnemyCamp : MonoBehaviour
     public List<EnemyWaveConfig> enemyWaves;
     public float despawnDelay = 5f;
     public Collider enemySpawnArea;
-
     private int currentWaveIndex = 0;
     private bool playerInRange = false;
     private Coroutine despawnCoroutine;
     private Coroutine spawnCoroutine;
-
-    // NEW: Track active enemies
     private List<EnemyBase> activeEnemies = new List<EnemyBase>();
-
-    // NEW: How many enemies left to kill in the current wave
     private int enemiesRemainingInWave = 0;
+    public bool campCompleted = false;
+
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (campCompleted) return;
+        if (other.CompareTag("PlayerVisual"))
         {
+            Logger.Log("Player entered enemy camp area.");
             playerInRange = true;
 
             if (despawnCoroutine != null)
             {
+                Logger.Log("Cancelling despawn coroutine as player returned.");
                 StopCoroutine(despawnCoroutine);
                 despawnCoroutine = null;
             }
@@ -53,49 +53,74 @@ public class EnemyCamp : MonoBehaviour
         }
     }
 
+
+
+
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (campCompleted) return;
+        if (other.CompareTag("PlayerVisual"))
         {
+            Logger.Log("Player left enemy camp area.");
             playerInRange = false;
             despawnCoroutine = StartCoroutine(DespawnAfterDelay());
         }
     }
 
+
+
+
     // only called when player leaves camp area
     private IEnumerator DespawnAfterDelay()
     {
+        Logger.Log("Despawning enemies in " + despawnDelay + " seconds...");
         yield return new WaitForSeconds(despawnDelay);
+
+        // check again if player returned
+        if (playerInRange)
+        {
+            Logger.Log("Player returned before despawn. Aborting despawn.");
+            StopCoroutine(despawnCoroutine);
+            yield break;
+        }
+
+        Logger.Log("Despawning all enemies from camp.");
 
         // Despawn all active enemies
         for (int i = activeEnemies.Count - 1; i >= 0; i--)
         {
             if (activeEnemies[i] != null && activeEnemies[i].gameObject.activeSelf)
             {
-                activeEnemies[i].gameObject.SetActive(false);
+                GlobalEnemyPool.Instance.DespawnEnemy(activeEnemies[i].gameObject);
             }
         }
 
         activeEnemies.Clear();
     }
 
+
+
+
     // Called by enemies when they die
     public void NotifyEnemyDied(EnemyBase enemy)
     {
+        if (campCompleted) return;
         if (activeEnemies.Contains(enemy))
             activeEnemies.Remove(enemy);
 
+        Logger.Log($"Enemy {enemy.gameObject.name} died. Remaining in wave: " + (enemiesRemainingInWave - 1));
         enemiesRemainingInWave--;
 
         // If wave finished and player is still here → start next wave
-        if (enemiesRemainingInWave <= GetCurrentWaveConfig().minEnemiesBeforeNextWave)
+        if (enemiesRemainingInWave <= 0)
         {
             currentWaveIndex++;
 
             if (currentWaveIndex >= enemyWaves.Count)
             {
                 // All waves complete → destroy camp
-                Destroy(gameObject);
+                Logger.Log("All waves completed. Initiating camp rewards and cleanup.");
+                StartCoroutine(InitiateCampRewards());
                 return;
             }
 
@@ -106,12 +131,15 @@ public class EnemyCamp : MonoBehaviour
 
     private void StartNextWave()
     {
+        if (campCompleted) return;
         // Prevent multiple starts
         if (spawnCoroutine != null)
             return;
 
+
         if (currentWaveIndex < enemyWaves.Count)
         {
+            Logger.Log("Starting wave " + (currentWaveIndex + 1));
             EnemyWaveConfig config = enemyWaves[currentWaveIndex];
 
             // Count total enemies this wave must kill
@@ -119,7 +147,13 @@ public class EnemyCamp : MonoBehaviour
 
             spawnCoroutine = StartCoroutine(SpawnWave(config));
         }
+        else
+        {
+            Logger.Log("All waves completed.");
+        }
     }
+
+
 
     public EnemyWaveConfig GetCurrentWaveConfig()
     {
@@ -127,6 +161,9 @@ public class EnemyCamp : MonoBehaviour
             return enemyWaves[currentWaveIndex];
         return null;
     }
+
+
+
 
     private int CountEnemiesInWave(EnemyWaveConfig wave)
     {
@@ -136,8 +173,11 @@ public class EnemyCamp : MonoBehaviour
         return count;
     }
 
+
+
     private IEnumerator SpawnWave(EnemyWaveConfig waveConfig)
     {
+        if (campCompleted) yield break;
         foreach (var spawnInfo in waveConfig.enemiesToSpawn)
         {
             for (int i = 0; i < spawnInfo.enemyCount; i++)
@@ -157,26 +197,65 @@ public class EnemyCamp : MonoBehaviour
         spawnCoroutine = null;
     }
 
+
     private void SpawnEnemy(EnemyType type)
     {
-        Vector3 spawnPos = GetRandomPointInCollider(enemySpawnArea);
-        
+        if (campCompleted) return;
+        Vector3 spawnPos = FindValidSpawnPosition(Random.Range(5f, 6f));
+        spawnPos.y = 0; // ground level
+
         EnemyBase enemy = GlobalEnemyPool.Instance.SpawnEnemy(type, spawnPos).GetComponent<EnemyBase>();
 
         enemy.owningCamp = this;
         activeEnemies.Add(enemy);
     }
 
-    // Random inside collider
-    private Vector3 GetRandomPointInCollider(Collider col)
+
+    private Vector3 FindValidSpawnPosition(float radius, int maxAttempts = 10)
     {
-        Vector3 extents = col.bounds.extents;
-        Vector3 center = col.bounds.center;
+        for (int i = 0; i < maxAttempts; i++)
+        {
+            Vector3 candidate = GetRandomPointInCollider();
+
+            // Check for overlap
+            if (!Physics.CheckSphere(candidate, radius, LayerMask.GetMask("Enemy")))
+            {
+                return candidate;
+            }
+        }
+
+        // If all attempts failed → just return a random position anyway
+        Logger.Log("WARNING: Could not find valid spawn position after max attempts.");
+        return GetRandomPointInCollider();
+    }
+
+
+
+    // Random inside collider
+    private Vector3 GetRandomPointInCollider()
+    {
+        Vector3 extents = enemySpawnArea.bounds.extents;
+        Vector3 center = enemySpawnArea.bounds.center;
 
         float x = Random.Range(center.x - extents.x, center.x + extents.x);
-        float y = Random.Range(center.y - extents.y, center.y + extents.y);
+        float y = 0f; // ground level
         float z = Random.Range(center.z - extents.z, center.z + extents.z);
 
         return new Vector3(x, y, z);
+    }
+
+
+    private IEnumerator InitiateCampRewards()
+    {
+        if (campCompleted) yield break;
+        campCompleted = true;
+        Logger.Log("Camp completed! Initiating rewards...");
+        yield return new WaitForSeconds(2f);
+
+        // Instantiate rewards here (e.g., loot drops, experience orbs, etc.)
+
+        activeEnemies.Clear();
+
+        Destroy(gameObject);
     }
 }
