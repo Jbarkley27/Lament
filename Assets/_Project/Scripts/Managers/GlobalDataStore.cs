@@ -8,11 +8,13 @@ public class GlobalDataStore : MonoBehaviour
     public PlayerMovement PlayerMovement;
     public GameObject PlayerVisual;
     public MapManager MapManager;
-    public GameObject OverviewMapRoot;
     public CinemachineCamera MainCMCamera;
     public GameObject PlayerFireSource;
     public StatModule PlayerStatModule;
     public AsteroidManager AsteroidManager;
+    public PlayerHealthModule PlayerHealthModule;
+    public ExplosionManager ExplosionManager;
+    public enum EntityType { Player, Enemy, Neutral }
 
     private void Awake()
     {
@@ -24,6 +26,5 @@ public class GlobalDataStore : MonoBehaviour
         }
         Instance = this;
         DontDestroyOnLoad(gameObject);
-        MainCMCamera.Lens.OrthographicSize = 70;
     }
 }

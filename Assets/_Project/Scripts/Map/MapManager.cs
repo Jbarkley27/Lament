@@ -40,21 +40,21 @@ public class MapManager: MonoBehaviour
 
     void Start()
     {
-        CloseOverviewMap();
+        // CloseOverviewMap();
     }
 
     public void ToggleMap()
     {
-        if (IsLoading) return;
-        IsLoading = true;
-        if (minimapOpen)
-        {
-            CloseOverviewMap();
-        }
-        else
-        {
-            OpenOverviewMap();
-        }
+        // if (IsLoading) return;
+        // IsLoading = true;
+        // if (minimapOpen)
+        // {
+        //     CloseOverviewMap();
+        // }
+        // else
+        // {
+        //     OpenOverviewMap();
+        // }
     }
 
 

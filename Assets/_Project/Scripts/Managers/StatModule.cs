@@ -5,7 +5,9 @@ public class StatModule : MonoBehaviour
 {
     [Header("Health")]
     public int Health;
-    public int CurrentHealth;
+
+    [Header("Shield")]
+    public ShieldGrade Shield;
 
     [Header("Boost")]
     public int BoostMultipler;

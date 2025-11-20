@@ -12,5 +12,10 @@ public class MinimapCamera : MonoBehaviour
         Vector3 newPos = target.position;
         newPos.y += height;
         transform.position = newPos;
+
+        // copy the main camera's rotation on the y-axis
+        Vector3 newRot = transform.eulerAngles;
+        newRot.y = Camera.main.transform.eulerAngles.y;
+        transform.eulerAngles = newRot;
     }
 }

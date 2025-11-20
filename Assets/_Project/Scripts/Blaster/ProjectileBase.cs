@@ -152,7 +152,7 @@ public class ProjectileBase : MonoBehaviour
 
     public void ApplyDamage(GameObject gameObject)
     {
-        HealthModule healthModule;
+        EnemyHealthModule healthModule;
         gameObject.TryGetComponent(out healthModule);
 
         if (healthModule)

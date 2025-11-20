@@ -16,31 +16,31 @@ public class OverviewmapIcon : MonoBehaviour
 
     void Start()
     {
-        mapRect = GlobalDataStore.Instance.OverviewMapRoot.GetComponent<RectTransform>();
+        // mapRect = GlobalDataStore.Instance.OverviewMapRoot.GetComponent<RectTransform>();
 
-        if (mapRect == null || iconPrefab == null)
-        {
-            Debug.LogWarning($"[MapIcon] Missing setup on {gameObject.name}");
-            return;
-        }
+        // if (mapRect == null || iconPrefab == null)
+        // {
+        //     Debug.LogWarning($"[MapIcon] Missing setup on {gameObject.name}");
+        //     return;
+        // }
 
-        // Instantiate icon under map
-        GameObject icon = Instantiate(iconPrefab, mapRect);
-        if (IsPlayer)
-            icon.transform.SetAsLastSibling();
-        else
-            icon.transform.SetAsFirstSibling();
+        // // Instantiate icon under map
+        // GameObject icon = Instantiate(iconPrefab, mapRect);
+        // if (IsPlayer)
+        //     icon.transform.SetAsLastSibling();
+        // else
+        //     icon.transform.SetAsFirstSibling();
 
-        iconRect = icon.GetComponent<RectTransform>();
+        // iconRect = icon.GetComponent<RectTransform>();
 
-        // Grab camera transform if not set
-        if (cameraTransform == null && Camera.main != null)
-            cameraTransform = Camera.main.transform;
+        // // Grab camera transform if not set
+        // if (cameraTransform == null && Camera.main != null)
+        //     cameraTransform = Camera.main.transform;
 
-        // Store offset based on camera's Y rotation to correct map alignment
-        // The -45° rotation (isometric) needs to be inverted for proper map alignment
-        float cameraYRot = cameraTransform != null ? cameraTransform.eulerAngles.y : -45f;
-        mapRotationOffset = Quaternion.Euler(0, -cameraYRot, 0);
+        // // Store offset based on camera's Y rotation to correct map alignment
+        // // The -45° rotation (isometric) needs to be inverted for proper map alignment
+        // float cameraYRot = cameraTransform != null ? cameraTransform.eulerAngles.y : -45f;
+        // mapRotationOffset = Quaternion.Euler(0, -cameraYRot, 0);
     }
 
     void Update()

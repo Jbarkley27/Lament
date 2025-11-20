@@ -12,25 +12,25 @@ public class ShipAnimation : MonoBehaviour
 
 
     [Header("VFX")]
-    public VisualEffect speedLines;
-    public ParticleSystem BoostVFX;
-    public ParticleSystem.EmissionModule BoostVFXEmissionModule;
+    public VisualEffect engineFlamesVFX;
+    // public ParticleSystem BoostVFX;
+    // public ParticleSystem.EmissionModule BoostVFXEmissionModule;
 
 
     void Start()
     {
-        if(StarfieldManager.Instance.BoostVFX)
-        {
-            BoostVFX = StarfieldManager.Instance.BoostVFX;
-            BoostVFXEmissionModule = BoostVFX.emission;
-        }
+        // if(StarfieldManager.Instance.BoostVFX)
+        // {
+        //     BoostVFX = StarfieldManager.Instance.BoostVFX;
+        //     BoostVFXEmissionModule = BoostVFX.emission;
+        // }
     }
 
     public void Update()
     {
         HandleAnimations();
         HandleSpeedVFX();
-        if(BoostVFX) BoostVFXEmissionModule.enabled = GlobalDataStore.Instance.InputManager.IsBoosting;
+        // if(BoostVFX) BoostVFXEmissionModule.enabled = GlobalDataStore.Instance.InputManager.IsBoosting;
     }
 
 
@@ -77,10 +77,10 @@ public class ShipAnimation : MonoBehaviour
         if (!GlobalDataStore.Instance.InputManager.IsBoosting
             || !GlobalDataStore.Instance.PlayerStatModule.CanBoost())
         {
-            speedLines.gameObject.SetActive(false);
+            engineFlamesVFX.gameObject.SetActive(false);
             return;
         }
 
-        speedLines.gameObject.SetActive(true);
+        engineFlamesVFX.gameObject.SetActive(true);
     }
 }

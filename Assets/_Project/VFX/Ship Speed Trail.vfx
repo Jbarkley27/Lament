@@ -19,7 +19,7 @@ MonoBehaviour:
       x: 852
       y: -1433
       width: 487
-      height: 2252
+      height: 2130
     contents:
     - model: {fileID: 8926484042661614608}
       id: 0
@@ -3277,7 +3277,7 @@ MonoBehaviour:
   - {fileID: 8926484042661615156}
   - {fileID: 8926484042661615159}
   - {fileID: 8926484042661615162}
-  m_UIPosition: {x: 877, y: 190}
+  m_UIPosition: {x: 890, y: 68}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots:
@@ -3749,7 +3749,7 @@ MonoBehaviour:
       m_Type:
         m_SerializableType: UnityEngine.Texture2D, UnityEngine.CoreModule, Version=0.0.0.0,
           Culture=neutral, PublicKeyToken=null
-      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"ed7cb8f9a27664e48896c904189f0e2c","type":3}}'
+      m_SerializableObject: '{"obj":{"fileID":2800000,"guid":"57ef53bb2cc02314d9c71339259a0c97","type":3}}'
     m_Space: -1
   m_Property:
     name: mainTexture

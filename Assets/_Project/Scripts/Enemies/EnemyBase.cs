@@ -7,15 +7,15 @@ public abstract class EnemyBase : MonoBehaviour
     // ------------------------------ //
     public enum EnemyState
     {
-        Idle,
         Wandering,
         Seeking,
         Attacking
     }
 
-    // protected EnemyState currentState;
+    protected EnemyState currentState;
     public EnemyType enemyType;
-    public GameObject explosionEffectPrefab;
+    public bool debugMode = false;
+    public GameObject enemyVisual;
 
 
 
@@ -31,7 +31,7 @@ public abstract class EnemyBase : MonoBehaviour
     //          COMPONENTS
     // ------------------------------ //
     protected Rigidbody rb;
-    protected HealthModule health;
+    protected EnemyHealthModule health;
     public EnemyCamp owningCamp;
 
     // Assigned by spawner
@@ -42,13 +42,6 @@ public abstract class EnemyBase : MonoBehaviour
     // public float moveSpeed = 3f;
     // public float turnSpeed = 10f;
 
-    // Tilt behavior
-    // [Header("Tilt")]
-    // public bool useTilt = false;
-    // public float tiltAmount = 10f;
-
-    // Cached velocity for tilt
-    // private Vector3 lastMoveDirection = Vector3.zero;
 
 
 
@@ -62,9 +55,6 @@ public abstract class EnemyBase : MonoBehaviour
     //      ATTACK GATING SYSTEM
     // ------------------------------ //
     // protected bool canAttack = false;
-
-    // Subclasses override this:
-    // protected virtual bool RequestAttackPermission() => true;
 
 
 
@@ -80,20 +70,15 @@ public abstract class EnemyBase : MonoBehaviour
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        health = GetComponent<HealthModule>();
-
-        // if (health != null)
-        //     health.OnDeath += HandleDeath;
+        health = GetComponent<EnemyHealthModule>();
+        if (debugMode)
+        {
+            if (health != null)
+            {
+                health.InitializeUI();
+            }
+        }
     }
-
-
-
-    // protected virtual void Update()
-    // {
-    //     RunStateMachine();
-    //     ApplyTilt();
-    // }
-
 
 
 
@@ -109,10 +94,6 @@ public abstract class EnemyBase : MonoBehaviour
     // {
     //     switch (currentState)
     //     {
-    //         case EnemyState.Idle:
-    //             IdleState();
-    //             break;
-
     //         case EnemyState.Wandering:
     //             WanderingState();
     //             break;
@@ -127,7 +108,6 @@ public abstract class EnemyBase : MonoBehaviour
     //     }
     // }
 
-    // protected virtual void IdleState() { }
     // protected virtual void WanderingState() { }
     // protected virtual void SeekingState() { }
     // protected virtual void AttackingState() { }
@@ -167,14 +147,6 @@ public abstract class EnemyBase : MonoBehaviour
             // Despawn Health
             health.OnDespawn();
         }
-        
-
-        // rb.linearVelocity = Vector3.zero;
-        // lastMoveDirection = Vector3.zero;
-
-        // player = null;
-
-        // currentState = EnemyState.Idle;
     }
 
 
@@ -185,42 +157,7 @@ public abstract class EnemyBase : MonoBehaviour
 
 
 
-    // ------------------------------ //
-    //             TILT
-    // ------------------------------ //
-    // private void ApplyTilt()
-    // {
-    //     if (!useTilt) return;
-
-    //     Vector3 horizontalVel = rb.linearVelocity;
-    //     horizontalVel.y = 0f;
-
-    //     if (horizontalVel.sqrMagnitude < 0.01f)
-    //     {
-    //         transform.localRotation = Quaternion.Lerp(
-    //             transform.localRotation,
-    //             Quaternion.identity,
-    //             Time.deltaTime * 5f
-    //         );
-    //         return;
-    //     }
-
-    //     lastMoveDirection = horizontalVel.normalized;
-
-    //     Quaternion targetTilt =
-    //         Quaternion.Euler(
-    //             lastMoveDirection.z * -tiltAmount,
-    //             0,
-    //             lastMoveDirection.x * tiltAmount
-    //         );
-
-    //     transform.localRotation = Quaternion.Lerp(
-    //         transform.localRotation,
-    //         targetTilt,
-    //         Time.deltaTime * 5f
-    //     );
-    // }
-
+    
 
 
 
@@ -232,7 +169,7 @@ public abstract class EnemyBase : MonoBehaviour
     public virtual void HandleDeath()
     {
         Die();
-        GlobalEnemyPool.Instance.DespawnEnemy(gameObject);
+        // GlobalEnemyPool.Instance.DespawnEnemy(gameObject);
     }
 
 
@@ -246,7 +183,6 @@ public abstract class EnemyBase : MonoBehaviour
     // ------------------------------ //
     //          STATE HELPERS
     // ------------------------------ //
-    // protected void EnterIdleState() => currentState = EnemyState.Idle;
     // protected void EnterWanderingState() => currentState = EnemyState.Wandering;
     // protected void EnterSeekingState() => currentState = EnemyState.Seeking;
     // protected void EnterAttackingState() => currentState = EnemyState.Attacking;
@@ -290,13 +226,14 @@ public abstract class EnemyBase : MonoBehaviour
 
     public void Die()
     {
-        owningCamp?.NotifyEnemyDied(this);
+        // owningCamp?.NotifyEnemyDied(this);
+        enemyVisual.SetActive(false);
 
         // Play explosion effect
-        if (explosionEffectPrefab != null)
-        {
-            Instantiate(explosionEffectPrefab, transform.position, Quaternion.identity);
-        }
+        GlobalDataStore.Instance.ExplosionManager.SpawnExplosion(
+            ExplosionManager.ExplosionType.Basic_Enemy,
+            transform.position
+        );
 
         gameObject.SetActive(false);
     }
