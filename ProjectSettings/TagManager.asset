@@ -22,9 +22,9 @@ TagManager:
   - Enemy
   - Collidable
   - Environment
-  - 
-  - 
-  - 
+  - Navmesh
+  - PlayerVisual
+  - Player_Local
   - 
   - 
   - 

@@ -24,6 +24,7 @@ public class EnemyCamp : MonoBehaviour
     public List<EnemyWaveConfig> enemyWaves;
     public float despawnDelay = 5f;
     public Collider enemySpawnArea;
+    public BoxCollider entireAreaCollider;
     private int currentWaveIndex = 0;
     private bool playerInRange = false;
     private Coroutine despawnCoroutine;
@@ -31,6 +32,8 @@ public class EnemyCamp : MonoBehaviour
     private List<EnemyBase> activeEnemies = new List<EnemyBase>();
     private int enemiesRemainingInWave = 0;
     public bool campCompleted = false;
+    [SerializeField] LayerMask blockedLayers;
+    public Transform Player;
 
 
     private void OnTriggerEnter(Collider other)
@@ -38,14 +41,20 @@ public class EnemyCamp : MonoBehaviour
         if (campCompleted) return;
         if (other.CompareTag("PlayerVisual"))
         {
+            // Assign player so enemies can reference it
+            Player = GlobalDataStore.Instance.PlayerVisual.transform;
+
+
             Logger.Log("Player entered enemy camp area.");
             playerInRange = true;
 
+            // Cancel any pending despawn
             if (despawnCoroutine != null)
             {
                 Logger.Log("Cancelling despawn coroutine as player returned.");
                 StopCoroutine(despawnCoroutine);
                 despawnCoroutine = null;
+                return;
             }
 
             // Resume or start spawning
@@ -54,13 +63,20 @@ public class EnemyCamp : MonoBehaviour
     }
 
 
-
+    public float GetCampSize()
+    {
+        return enemySpawnArea.bounds.size.magnitude;
+    }
 
     private void OnTriggerExit(Collider other)
     {
         if (campCompleted) return;
         if (other.CompareTag("PlayerVisual"))
         {
+            // Clear player reference   
+            Player = null;
+
+
             Logger.Log("Player left enemy camp area.");
             playerInRange = false;
             despawnCoroutine = StartCoroutine(DespawnAfterDelay());
@@ -76,13 +92,13 @@ public class EnemyCamp : MonoBehaviour
         Logger.Log("Despawning enemies in " + despawnDelay + " seconds...");
         yield return new WaitForSeconds(despawnDelay);
 
-        // check again if player returned
-        if (playerInRange)
-        {
-            Logger.Log("Player returned before despawn. Aborting despawn.");
-            StopCoroutine(despawnCoroutine);
-            yield break;
-        }
+        // // check again if player returned
+        // if (playerInRange)
+        // {
+        //     Logger.Log("Player returned before despawn. Aborting despawn.");
+        //     StopCoroutine(despawnCoroutine);
+        //     yield break;
+        // }
 
         Logger.Log("Despawning all enemies from camp.");
 
@@ -202,7 +218,7 @@ public class EnemyCamp : MonoBehaviour
     {
         if (campCompleted) return;
         Vector3 spawnPos = FindValidSpawnPosition(Random.Range(5f, 6f));
-        spawnPos.y = 0; // ground level
+        spawnPos.y = 10; // ground level
 
         EnemyBase enemy = GlobalEnemyPool.Instance.SpawnEnemy(type, spawnPos).GetComponent<EnemyBase>();
 
@@ -211,14 +227,14 @@ public class EnemyCamp : MonoBehaviour
     }
 
 
-    private Vector3 FindValidSpawnPosition(float radius, int maxAttempts = 10)
+    public Vector3 FindValidSpawnPosition(float radius, int maxAttempts = 10)
     {
         for (int i = 0; i < maxAttempts; i++)
         {
             Vector3 candidate = GetRandomPointInCollider();
 
             // Check for overlap
-            if (!Physics.CheckSphere(candidate, radius, LayerMask.GetMask("Enemy")))
+            if (!Physics.CheckSphere(candidate, radius, blockedLayers))
             {
                 return candidate;
             }

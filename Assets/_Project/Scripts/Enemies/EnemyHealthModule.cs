@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using DamageNumbersPro;
+using TMPro;
 
 public class EnemyHealthModule : MonoBehaviour
 {
@@ -21,10 +22,34 @@ public class EnemyHealthModule : MonoBehaviour
     public float heightOffset = 5;
     private bool uiInitialized = false;
     public Slider shieldSlider;
+    public bool Debug;
+    public TMP_Text enemyStateText;
+    public GameObject CanSeeIndicator;
+    public GameObject IsAttackingIndicator;
+    public GameObject AttackCooldownIndicator;
+    public GameObject InAttackRangeIndicator;
 
 
 
-
+    void Update()
+    {
+        if (Debug && enemyBase)
+        {
+            enemyStateText.text = enemyBase.currentState.ToString();
+            CanSeeIndicator.SetActive(enemyBase.CanSeePlayerFlag);
+            IsAttackingIndicator.SetActive(enemyBase.isAttacking);
+            AttackCooldownIndicator.SetActive(enemyBase.CanAttack);
+            InAttackRangeIndicator.SetActive(enemyBase.PlayerInAttackRange());
+        }
+        else
+        {
+            enemyStateText.text = "";
+            CanSeeIndicator.SetActive(false);
+            IsAttackingIndicator.SetActive(false);
+            AttackCooldownIndicator.SetActive(false);
+            InAttackRangeIndicator.SetActive(false);
+        }
+    }
 
 
 
@@ -36,7 +61,7 @@ public class EnemyHealthModule : MonoBehaviour
 
         if (healthUIInstance == null)
         {
-            Debug.LogError($"Health UI Prefab missing on {name}");
+            Logger.Log($"Health UI Prefab missing on {name}");
             return;
         }
 

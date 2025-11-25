@@ -14,6 +14,8 @@ public class GlobalDataStore : MonoBehaviour
     public AsteroidManager AsteroidManager;
     public PlayerHealthModule PlayerHealthModule;
     public ExplosionManager ExplosionManager;
+    public Material CameraOcclusionMaterial;
+    
     public enum EntityType { Player, Enemy, Neutral }
 
     private void Awake()

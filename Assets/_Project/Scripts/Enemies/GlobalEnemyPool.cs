@@ -29,13 +29,12 @@ public class GlobalEnemyPool : MonoBehaviour
 
     public Transform activeEnemyContainer;
     public Transform inactiveEnemyContainer;
+    public PlayerScentNode PlayerScentNode;
 
     [Header("Enemy Prefabs")]
     public List<EnemyPrefab> enemyPrefabs;
     private Dictionary<EnemyType, Queue<GameObject>> poolDict = new();
 
-    [Header("Global Enemy Settings")]
-    public Canvas EnemyHealthCanvas;
 
 
     private void Awake()

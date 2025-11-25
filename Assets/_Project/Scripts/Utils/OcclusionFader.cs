@@ -6,6 +6,7 @@ public class OcclusionFader : MonoBehaviour
     public bool isOccluded = false;
     public List<MeshRenderer> meshRenderers = new List<MeshRenderer>();
     public List<Material> originalMaterials = new List<Material>();
+    private Material _occlusionMaterialInstance;
 
     void Awake()
     {
@@ -19,7 +20,23 @@ public class OcclusionFader : MonoBehaviour
         }
     }
 
-    public void SetOccluded(bool occluded, Material occlusionMaterial)
+
+
+    void Start()
+    {
+        // Force material instantiation (prevents stutter later)
+        if (GlobalDataStore.Instance == null || GlobalDataStore.Instance.CameraOcclusionMaterial == null)
+        {
+            Debug.LogError("GlobalDataStore or CameraOcclusionMaterial is null!", this);
+            return;
+        }
+
+        _occlusionMaterialInstance = new Material(GlobalDataStore.Instance.CameraOcclusionMaterial);
+    }
+
+
+
+    public void SetOccluded(bool occluded)
     {
         if (isOccluded == occluded) return;
 
@@ -29,7 +46,7 @@ public class OcclusionFader : MonoBehaviour
         {
             if (isOccluded)
             {
-                meshRenderers[i].material = occlusionMaterial;
+                meshRenderers[i].material = _occlusionMaterialInstance;
             }
             else
             {

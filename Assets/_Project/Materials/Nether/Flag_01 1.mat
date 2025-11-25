@@ -163,7 +163,7 @@ Material:
     - _AddPrecomputedVelocity: 0
     - _AdditionalLightsFalloff: 1
     - _AdditionalLightsThreshold: 0.5
-    - _AdvancedTab: 0
+    - _AdvancedTab: 1
     - _AlbedoMapIntensity: 1
     - _AlembicMotionVectors: 0
     - _AlphaClip: 0
@@ -267,9 +267,9 @@ Material:
     - _ZTest: 4
     - _ZWrite: 1
     m_Colors:
-    - _AlbedoColor: {r: 0.18378425, g: 0.6603774, b: 0.54428416, a: 1}
+    - _AlbedoColor: {r: 0.18378422, g: 0.6603774, b: 0.54428416, a: 1}
     - _BaseColor: {r: 0.18378428, g: 0.6603774, b: 0.5442842, a: 1}
-    - _Color: {r: 0.18378422, g: 0.6603774, b: 0.54428416, a: 1}
+    - _Color: {r: 0.18378419, g: 0.6603774, b: 0.54428416, a: 1}
     - _DissolveBorderColor: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _GoochBrightColor: {r: 1, g: 1, b: 1, a: 1}
