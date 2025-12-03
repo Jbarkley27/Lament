@@ -1501,6 +1501,143 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 586131113}
   m_CullTransparentMesh: 1
+--- !u!1 &603365484
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 603365485}
+  - component: {fileID: 603365488}
+  - component: {fileID: 603365487}
+  - component: {fileID: 603365486}
+  m_Layer: 0
+  m_Name: 3DUI Camera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &603365485
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 603365484}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2074941572}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &603365486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 603365484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.UniversalAdditionalCameraData
+  m_RenderShadows: 0
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 1
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_AllowHDROutput: 1
+  m_UseScreenCoordOverride: 0
+  m_ScreenSizeOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_ScreenCoordScaleBias: {x: 0, y: 0, z: 0, w: 0}
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_TaaSettings:
+    m_Quality: 3
+    m_FrameInfluence: 0.1
+    m_JitterScale: 1
+    m_MipBias: 0
+    m_VarianceClampScale: 0.9
+    m_ContrastAdaptiveSharpening: 0
+  m_Version: 2
+--- !u!81 &603365487
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 603365484}
+  m_Enabled: 1
+--- !u!20 &603365488
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 603365484}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 4
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.1
+  far clip plane: 10000
+  field of view: 60
+  orthographic: 1
+  orthographic size: 70
+  m_Depth: 1
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 65536
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
 --- !u!1 &764964121
 GameObject:
   m_ObjectHideFlags: 0
@@ -1660,6 +1797,7 @@ GameObject:
   - component: {fileID: 796776548}
   - component: {fileID: 796776549}
   - component: {fileID: 796776550}
+  - component: {fileID: 796776551}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -1707,6 +1845,7 @@ MonoBehaviour:
   PlayerHealthModule: {fileID: 796776547}
   ExplosionManager: {fileID: 796776548}
   CameraOcclusionMaterial: {fileID: 2100000, guid: f78e4a7de14804c57bd6ff933ddcb927, type: 2}
+  ProjectilePool: {fileID: 796776551}
 --- !u!114 &796776537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2071,6 +2210,20 @@ MonoBehaviour:
   freeSpaceLayerMask:
     serializedVersion: 2
     m_Bits: 5120
+--- !u!114 &796776551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 796776533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2118d0270d08426da8b63bc950506e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ProjectilePool
+  projectilePrefab: {fileID: 9196908029255247142, guid: 6d48c8e1e37674e63a51c99d5a71fcbc, type: 3}
+  initialSize: 32
 --- !u!1 &847662813
 GameObject:
   m_ObjectHideFlags: 0
@@ -2161,7 +2314,7 @@ MonoBehaviour:
     CustomLookAtTarget: 0
   Lens:
     FieldOfView: 60
-    OrthographicSize: 130
+    OrthographicSize: 70
     NearClipPlane: 0.01
     FarClipPlane: 100000
     Dutch: 0
@@ -4224,7 +4377,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2919673824150331601, guid: 7b639f09485434459b4c8d627847b6fe, type: 3}
       propertyPath: m_RenderingLayerMask
-      value: 3
+      value: 67
       objectReference: {fileID: 0}
     - target: {fileID: 2919673824150331601, guid: 7b639f09485434459b4c8d627847b6fe, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -4280,7 +4433,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7474443549405350873, guid: 7b639f09485434459b4c8d627847b6fe, type: 3}
       propertyPath: m_RenderingLayerMask
-      value: 3
+      value: 67
       objectReference: {fileID: 0}
     - target: {fileID: 7474443549405350873, guid: 7b639f09485434459b4c8d627847b6fe, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -4292,7 +4445,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9016630218701705325, guid: 7b639f09485434459b4c8d627847b6fe, type: 3}
       propertyPath: m_RenderingLayerMask
-      value: 3
+      value: 67
       objectReference: {fileID: 0}
     - target: {fileID: 9016630218701705325, guid: 7b639f09485434459b4c8d627847b6fe, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -4602,6 +4755,66 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 60
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1845343901
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1845343902}
+  - component: {fileID: 1845343903}
+  m_Layer: 7
+  m_Name: Decal Projector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1845343902
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1845343901}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2032557586}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1845343903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1845343901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0777d029ed3dffa4692f417d4aba19ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.DecalProjector
+  m_Material: {fileID: 2100000, guid: b949020edb50340cdb9c83c94e40bde6, type: 2}
+  m_DrawDistance: 10000
+  m_FadeScale: 1
+  m_StartAngleFade: 180
+  m_EndAngleFade: 180
+  m_UVScale: {x: 1, y: 1}
+  m_UVBias: {x: 0, y: 0}
+  m_RenderingLayerMask:
+    serializedVersion: 0
+    m_Bits: 1
+  m_ScaleMode: 0
+  m_Offset: {x: 0, y: 0, z: 10}
+  m_Size: {x: 5, y: 5, z: 20}
+  m_FadeFactor: 1
+  version: 1
+  m_DecalLayerMask: 1
 --- !u!1 &1885076359
 GameObject:
   m_ObjectHideFlags: 0
@@ -5420,7 +5633,7 @@ MonoBehaviour:
   m_SoftShadowQuality: 0
   m_RenderingLayersMask:
     serializedVersion: 0
-    m_Bits: 1
+    m_Bits: 64
   m_ShadowRenderingLayersMask:
     serializedVersion: 0
     m_Bits: 1
@@ -5478,7 +5691,7 @@ Light:
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 128
-  m_RenderingLayerMask: 128
+  m_RenderingLayerMask: 64
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
@@ -5712,6 +5925,7 @@ Transform:
   - {fileID: 1624450293}
   - {fileID: 72755161}
   - {fileID: 1932909980}
+  - {fileID: 1845343902}
   m_Father: {fileID: 1065517711}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!135 &2032557587
@@ -5983,7 +6197,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 8.660248, z: -405.00003}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 603365485}
   m_Father: {fileID: 310965579}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2074941573
@@ -6002,7 +6217,8 @@ MonoBehaviour:
   m_RequiresDepthTextureOption: 1
   m_RequiresOpaqueTextureOption: 2
   m_CameraType: 0
-  m_Cameras: []
+  m_Cameras:
+  - {fileID: 603365488}
   m_RendererIndex: -1
   m_VolumeLayerMask:
     serializedVersion: 2
@@ -6097,7 +6313,7 @@ Camera:
   far clip plane: 100000
   field of view: 60
   orthographic: 1
-  orthographic size: 130
+  orthographic size: 70
   m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
@@ -6196,7 +6412,7 @@ MonoBehaviour:
   m_SoftShadowQuality: 0
   m_RenderingLayersMask:
     serializedVersion: 0
-    m_Bits: 1
+    m_Bits: 64
   m_ShadowRenderingLayersMask:
     serializedVersion: 0
     m_Bits: 1
@@ -6254,7 +6470,7 @@ Light:
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 128
-  m_RenderingLayerMask: 128
+  m_RenderingLayerMask: 64
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}

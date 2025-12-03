@@ -20,15 +20,15 @@ public class PlayerScentNode : MonoBehaviour
 
 
     public Vector3 GetValidPlayerScentNode(
-        BoxCollider scentZoneCollider
+        float maxDistance
     )
     {
         for (int i = 0; i < 20; i++) // try 20 attempts
         {
-            Vector3 center = scentZoneCollider.bounds.center;
-            Vector3 extents = scentZoneCollider.bounds.extents;
-            float minDist = extents.magnitude * 0.1f;
-            float maxDist = extents.magnitude * 0.9f;
+            // Vector3 center = GlobalDataStore.Instance.PlayerVisual.transform.position;
+            Vector3 extents = maxDistance * Vector3.one;
+            float minDist = extents.magnitude * 0.3f;
+            float maxDist = extents.magnitude * Random.Range(.95f, 1.1f);
 
             Vector3 candidate = GetRandomPointAround(
                     GlobalDataStore.Instance.PlayerVisual.transform.position, minDist, maxDist);

@@ -15,6 +15,8 @@ public class GlobalDataStore : MonoBehaviour
     public PlayerHealthModule PlayerHealthModule;
     public ExplosionManager ExplosionManager;
     public Material CameraOcclusionMaterial;
+    [Header("Shared Pools")]
+    public ProjectilePool ProjectilePool;
     
     public enum EntityType { Player, Enemy, Neutral }
 
